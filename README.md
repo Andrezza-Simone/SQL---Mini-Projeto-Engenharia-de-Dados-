@@ -67,62 +67,17 @@ VALUES (1, 1, 1, "2024-02-01", 2);
 
 📊 Consultas de Negócio
 Livros mais vendidos da semana
-SELECT titulo_produto, SUM(quantidade) AS total_vendido
-FROM `Livraria_DevSaber.Vendas` v
-JOIN `Livraria_DevSaber.Produtos` p
-  ON v.id_produto = p.id_produto
-WHERE data_venda BETWEEN DATE_SUB(CURRENT_DATE(), INTERVAL 7 DAY) AND CURRENT_DATE()
-GROUP BY titulo_produto
-ORDER BY total_vendido DESC;
-
 Desempenho de vendas por mês
-SELECT EXTRACT(MONTH FROM data_venda) AS mes, SUM(quantidade) AS total_vendido
-FROM `Livraria_DevSaber.Vendas`
-GROUP BY mes
-ORDER BY mes;
-
-Ticket médio
-SELECT AVG(preco * quantidade) AS ticket_medio
-FROM `Livraria_DevSaber.Vendas` v
-JOIN `Livraria_DevSaber.Produtos` p
-  ON v.id_produto = p.id_produto;
-
 Taxa de recompra
-SELECT id_cliente,
-       COUNT(DISTINCT data_venda) AS qtd_compras,
-       CASE WHEN COUNT(DISTINCT data_venda) > 1 THEN "Recomprador"
-            ELSE "Não Recomprador" END AS perfil
-FROM `Livraria_DevSaber.Vendas`
-GROUP BY id_cliente;
-
 Receita total
-SELECT SUM(p.preco * v.quantidade) AS receita_total
-FROM `Livraria_DevSaber.Vendas` v
-JOIN `Livraria_DevSaber.Produtos` p
-  ON v.id_produto = p.id_produto;
-
 Receita mensal
-SELECT EXTRACT(MONTH FROM data_venda) AS mes,
-       SUM(p.preco * v.quantidade) AS receita_mensal
-FROM `Livraria_DevSaber.Vendas` v
-JOIN `Livraria_DevSaber.Produtos` p
-  ON v.id_produto = p.id_produto
-GROUP BY mes
-ORDER BY mes;
+
 
 👓 VIEWs
 O que é uma VIEW?
 
 Uma VIEW é uma tabela virtual que sempre reflete os dados mais recentes das tabelas subjacentes, sem necessidade de reexecutar manualmente o código.
 
-Exemplo: Consulta de Taxa de Recompra
-CREATE VIEW `Livraria_DevSaber.View_TaxaRecompra` AS
-SELECT id_cliente,
-       COUNT(DISTINCT data_venda) AS qtd_compras,
-       CASE WHEN COUNT(DISTINCT data_venda) > 1 THEN "Recomprador"
-            ELSE "Não Recomprador" END AS perfil
-FROM `Livraria_DevSaber.Vendas`
-GROUP BY id_cliente;
 
 🚀 Como Executar
 
